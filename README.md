@@ -5,6 +5,8 @@ To build this project run below command in your project directory
 ```javascript
 npm install
 ```
+
+# Tutorial: 
 * You are going to need an Azure account. 
 * Node.js
 * Quizlet Developer Account
@@ -65,3 +67,5 @@ var restify = require('restify');
     var bot = new builder.UniversalBot(connector);
     server.post('/api/messages', connector.listen());
 ```
+
+[I'm an inline-style link with title](https://www.google.com "Google's Homepage")

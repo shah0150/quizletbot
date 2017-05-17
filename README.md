@@ -69,3 +69,47 @@ var restify = require('restify');
 ```
 
 [I'm an inline-style link with title](https://www.google.com "Google's Homepage")
+
+This is just the bare bones of the bot. Before we add any dialogs, lets be sure your api file is set up correctly.
+
+###### Quizlet API Code
+
+In order for this bot to work we are going to make two API calls. One to retrieve the different set of user and other to retrieve the sets of data in cards. 
+
+Make sure you have got your Quizlet API 2.0 Client ID. 
+
+Open up api.js file and copy and paste the below code 
+
+```javascript
+exports.GetSets = function (user, callback) {
+        request.get({
+            uri: 'https://api.quizlet.com/2.0/users/' + user + '/sets?client_id=<ENTER CLIENT ID here>',
+
+        },
+            function (error, response, body) {
+                if (error)
+                    callback(error);
+                else {
+                    body = JSON.parse(body);
+                    for (var x = 0; x < body.length; x++) {
+                        if ((x + 1) == body.length) {
+                            // last set
+                            sets = sets + body[x].title;
+                        } else {
+                            sets = sets + body[x].title + ', ';
+                        }
+                        table[body[x].title] = body[x].id; //creating a hash table to store set names and IDs
+                    }
+                    console.log('Got sets');
+                    exports.Sets = sets;
+
+                }
+            })
+    }
+    
+```
+Because the api.js file will be used a node module in other files, all variables and functions needed outside of this file will be exported.The GetSets function does a Get call to a Quizlet uri specific to retrieving a users study sets, with username passed into it and the client ID you received from Quizlet.( The username is passed in from outside files calling the function, so it is not a variable you need to instantiate in this file.) The body received back from the API will contain the different study sets and other information associated with them. The rest of this function will manipulate the the body so that we can store the names of the sets (in the set array) and the set IDs (which will be needed in the next function) using a hash table. Lets take a look at the GetTerms function.
+
+```javascript
+
+```
